@@ -1,4 +1,10 @@
 package org.example.localizei.dto;
 
-public record UsuarioResponseDto() {
-}
+import java.util.List;
+import java.util.UUID;
+
+public record UsuarioResponseDto(
+        UUID id,
+        String nome,
+        String email,
+        List <ProdutoResponseDto> produtos) {}

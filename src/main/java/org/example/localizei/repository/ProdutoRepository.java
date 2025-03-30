@@ -1,7 +1,10 @@
 package org.example.localizei.repository;
 
+import org.example.localizei.entities.ProdutoEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface ProdutoEntity extends JpaRepository<ProdutoEntity, Long> {
-    
+import java.util.UUID;
+
+public interface ProdutoRepository extends JpaRepository<ProdutoEntity, UUID> {
+
 }

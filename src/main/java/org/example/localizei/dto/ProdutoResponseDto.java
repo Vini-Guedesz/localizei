@@ -1,10 +1,9 @@
 package org.example.localizei.dto;
 
-import jakarta.validation.constraints.NotBlank;
+import java.util.UUID;
 
-public record ProdutoResponseCriacaoDto(
-        @NotBlank(message = "Nome é obrigatório!")
-        String name,
-
-        @NotBlank(message = "Código de rastreio é obrigatório!")
-        String CodigoDeRastreiro){}
+public record ProdutoResponseDto(
+        UUID produtoId,
+        UUID usuarioId,
+        String nomeDoProduto,
+        String codigoDeRastreio){}
