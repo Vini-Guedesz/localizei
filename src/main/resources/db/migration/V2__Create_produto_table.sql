@@ -5,4 +5,3 @@ CREATE TABLE produto (
     usuario_id UUID NOT NULL,
     FOREIGN KEY (usuario_id) REFERENCES usuario(id) ON DELETE CASCADE
 );
-
