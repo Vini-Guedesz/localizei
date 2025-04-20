@@ -1,5 +1,5 @@
 CREATE TABLE produto (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    id BIGSERIAL PRIMARY KEY,
     nome VARCHAR(255) NOT NULL,
     codigo_de_rastreio VARCHAR(255) NOT NULL,
     usuario_id UUID NOT NULL,

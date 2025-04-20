@@ -4,20 +4,18 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.UUID;
-
 @Entity
 @Getter
 @Setter
 public class ProdutoEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(unique = true, nullable = false, name = "id")
-    private UUID id;
-    @Column(nullable = false, name = "nome")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(unique = true, nullable = false)
+    private Long id;
+    @Column(nullable = false)
     private String nome;
-    @Column(nullable = false, name = "codigo_de_rastreio")
+    @Column(nullable = false)
     private String codigoDeRastreio;
     @ManyToOne
     @JoinColumn(name = "usuario_id")

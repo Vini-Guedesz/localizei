@@ -3,7 +3,7 @@ package org.example.localizei.dto;
 import java.util.UUID;
 
 public record ProdutoResponseDto(
-        UUID produtoId,
+        Long produtoId,
         UUID usuarioId,
         String nomeDoProduto,
         String codigoDeRastreio){}

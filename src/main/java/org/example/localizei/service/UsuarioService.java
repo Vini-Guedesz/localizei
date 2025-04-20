@@ -16,6 +16,7 @@ public class UsuarioService {
     private final UsuarioRepository usuarioRepository;
     private final UsuarioMapper usuarioMapper;
 
+
     @Transactional
     public UsuarioResponseDto criarUsuario(UsuarioRequestDto usuarioRequestDto) {
 
