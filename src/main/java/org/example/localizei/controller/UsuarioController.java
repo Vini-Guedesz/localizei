@@ -9,14 +9,15 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.example.localizei.dto.UsuarioRequestDto;
 import org.example.localizei.dto.UsuarioResponseDto;
+import org.example.localizei.dto.UsuarioUpdateRequestDto;
 import org.example.localizei.exception.model.ApiError;
 import org.example.localizei.service.UsuarioService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.UUID;
 
 @RestController
 @Controller("/api/usuario")
@@ -68,5 +69,139 @@ public class UsuarioController {
         return ResponseEntity.status(HttpStatus.CREATED).body(usuarioResponseDto);
     }
 
+
+    @Operation(summary = "Busca o usuario por Email")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Usuário encontrado com sucesso",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = UsuarioResponseDto.class)
+                    )
+            ),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "Erro de validação dos dados enviados",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ApiError.class)
+                    )
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "Usuário não encontrado",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ApiError.class)
+                    )
+            ),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "Erro interno do servidor",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ApiError.class)
+                    )
+            )
+    })
+    @GetMapping("/buscar-por-email")
+    public ResponseEntity<UsuarioResponseDto> buscarPorEmail(@RequestParam String email) {
+        UsuarioResponseDto usuarioResponseDto = usuarioService.obterUsuarioPorEmail(email);
+        return ResponseEntity.status(HttpStatus.OK).body(usuarioResponseDto);
+    }
+
+    @Operation(summary = "Busca o usuario por ID")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Usuário encontrado com sucesso",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = UsuarioResponseDto.class)
+                    )
+            ),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "Erro de validação dos dados enviados",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ApiError.class)
+                    )
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "Usuário não encontrado",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ApiError.class)
+                    )
+            ),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "Erro interno do servidor",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ApiError.class)
+                    )
+            )
+    })
+    @GetMapping("/buscar-por-id")
+    public ResponseEntity<UsuarioResponseDto> buscarPorId(@RequestParam UUID id) {
+        UsuarioResponseDto usuarioResponseDto = usuarioService.obterUsuarioPorId(id);
+        return ResponseEntity.status(HttpStatus.OK).body(usuarioResponseDto);
+    }
+
+    @Operation(summary = "Atualiza um usuário existente")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Usuário atualizado com sucesso",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = UsuarioResponseDto.class)
+                    )
+            ),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "Erro de validação dos dados enviados",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ApiError.class)
+                    )
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "Usuário não encontrado",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ApiError.class)
+                    )
+            ),
+            @ApiResponse(
+                    responseCode = "409",
+                    description = "Conflito: e-mail já cadastrado",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ApiError.class)
+                    )
+            ),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "Erro interno do servidor",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ApiError.class)
+                    )
+            )
+    })
+    @PatchMapping("/atualizar-usuario/{id}")
+    public ResponseEntity<UsuarioResponseDto> atualizarUsuario(
+            @PathVariable UUID id,
+            @Valid @RequestBody UsuarioUpdateRequestDto usuarioUpdateRequestDto
+    ) {
+        UsuarioResponseDto usuarioResponseDto = usuarioService.atualizarUsuario(id, usuarioUpdateRequestDto);
+        return ResponseEntity.ok(usuarioResponseDto);
+    }
 
 }

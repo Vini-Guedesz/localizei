@@ -1,10 +1,13 @@
 package org.example.localizei.dto;
 
-import java.util.List;
+
+import org.example.localizei.entities.ProdutoEntity;
+
+import java.util.Set;
 import java.util.UUID;
 
 public record UsuarioResponseDto(
         UUID id,
         String nome,
         String email,
-        List <ProdutoResponseDto> produtos) {}
+        Set<ProdutoEntity> produtos) {}
