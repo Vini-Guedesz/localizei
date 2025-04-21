@@ -8,9 +8,13 @@ import org.example.localizei.exception.custom.RecursoNaoEncontradoException;
 import org.example.localizei.mapper.UsuarioMapper;
 import org.example.localizei.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -67,5 +71,19 @@ public class UsuarioService {
         return usuarioMapper.toResponse(usuarioAtualizado);
     }
 
+    public Page<UsuarioResponseDto> listarUsuarios(Pageable pageable) {
+        return usuarioRepository.findAll(pageable)
+                .map(usuarioMapper::toResponse);
+    }
+
+    @Transactional
+    public UsuarioResponseDto deletarUsuario(UUID id) {
+        Optional<UsuarioEntity> usuarioOpt = Optional.ofNullable(usuarioRepository.findById(id)
+                .orElseThrow(() -> new RecursoNaoEncontradoException("Usuário não encontrado por id:" + id)));
+        if (usuarioOpt.isPresent()) {
+            usuarioRepository.deleteById(id);
+        }
+        return usuarioMapper.toResponse(usuarioOpt.get());
+    }
 
 }
